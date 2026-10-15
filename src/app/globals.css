@@ -1,26 +1,66 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Design tokens — the only place colors are defined. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --primary: #4f46e5;
+  --primary-fg: #ffffff;
+  --accent: #14b8a6;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --sidebar-from: #312e81;
+  --sidebar-to: #4c1d95;
+  --sidebar-fg: #ffffff;
+  --shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 16px rgb(15 23 42 / 0.06);
+}
+
+.dark {
+  --bg: #0b1020;
+  --surface: #121831;
+  --surface-2: #182042;
+  --border: #1e2747;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --primary: #6366f1;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-sidebar-from: var(--sidebar-from);
+  --color-sidebar-to: var(--sidebar-to);
+  --color-sidebar-fg: var(--sidebar-fg);
+  --font-sans: var(--font-inter);
+  --radius-card: 12px;
+  --shadow-card: var(--shadow);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
 }

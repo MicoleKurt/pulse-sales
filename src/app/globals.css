@@ -19,6 +19,7 @@
   --sidebar-from: #312e81;
   --sidebar-to: #4c1d95;
   --sidebar-fg: #ffffff;
+  --admin-bg: #0b1020;
   --shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 16px rgb(15 23 42 / 0.06);
 }
 
@@ -49,6 +50,7 @@
   --color-sidebar-from: var(--sidebar-from);
   --color-sidebar-to: var(--sidebar-to);
   --color-sidebar-fg: var(--sidebar-fg);
+  --color-admin-bg: var(--admin-bg);
   --font-sans: var(--font-inter);
   --radius-card: 12px;
   --shadow-card: var(--shadow);

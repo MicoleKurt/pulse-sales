@@ -45,7 +45,7 @@ function Sidebar({ rights, plan, trialDaysLeft, org, orgs, onNavigate }: Pick<Pr
   const can = (r?: Right) => !r || rights.includes(r);
 
   return (
-    <div className="flex h-full flex-col bg-gradient-to-b from-sidebar-from to-sidebar-to text-sidebar-fg">
+    <div className="flex h-full flex-col bg-sidebar-bg text-sidebar-fg">
       <div className="flex h-16 items-center gap-2 px-5">
         <span className="grid size-8 place-items-center rounded-lg bg-white/15">
           <Activity className="size-4" />

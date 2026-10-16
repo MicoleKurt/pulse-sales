@@ -3,16 +3,42 @@ import { clsx } from "clsx";
 import type { LucideIcon } from "lucide-react";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
-type Variant = "primary" | "secondary" | "ghost" | "danger";
+/*
+ * Shared primitives in HopeSMS's visual language: tinted "neon" buttons with a soft glow on hover,
+ * Rajdhani display type for headings/labels, glass-dark cards with scanlines and corner glows.
+ */
+
+type Variant = "primary" | "secondary" | "ghost" | "danger" | "solid";
+export type Tone = "primary" | "accent" | "pink" | "gold" | "success" | "danger";
+
+const toneVar: Record<Tone, string> = {
+  primary: "var(--primary)",
+  accent: "var(--accent)",
+  pink: "var(--pink)",
+  gold: "var(--gold)",
+  success: "var(--success)",
+  danger: "var(--danger)",
+};
+const toneText: Record<Tone, string> = {
+  primary: "text-primary",
+  accent: "text-accent",
+  pink: "text-pink",
+  gold: "text-gold",
+  success: "text-success",
+  danger: "text-danger",
+};
+export const tint = (tone: Tone, pct: number) => `color-mix(in srgb, ${toneVar[tone]} ${pct}%, transparent)`;
 
 export const buttonClass = (variant: Variant = "primary", size: "sm" | "md" = "md") =>
   clsx(
-    "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+    "inline-flex items-center justify-center gap-2 rounded-lg border font-display font-bold tracking-[0.04em] transition-[background-color,box-shadow,border-color,color,transform] duration-150 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
     size === "sm" ? "h-8 px-3 text-xs" : "h-10 px-4 text-sm",
-    variant === "primary" && "bg-primary text-primary-fg hover:brightness-110",
-    variant === "secondary" && "border border-border bg-surface text-text hover:bg-surface-2",
-    variant === "ghost" && "text-muted hover:bg-surface-2 hover:text-text",
-    variant === "danger" && "bg-danger text-white hover:brightness-110",
+    variant === "primary" &&
+      "border-primary/30 bg-primary/10 text-primary hover:border-primary/50 hover:bg-primary/18 hover:shadow-[0_0_18px_color-mix(in_srgb,var(--primary)_22%,transparent)]",
+    variant === "solid" && "border-transparent bg-primary text-primary-fg hover:shadow-[0_0_22px_color-mix(in_srgb,var(--primary)_40%,transparent)]",
+    variant === "secondary" && "border-border-strong bg-transparent text-muted hover:border-accent/40 hover:bg-accent/8 hover:text-accent",
+    variant === "ghost" && "border-transparent text-muted hover:bg-surface-2 hover:text-text",
+    variant === "danger" && "border-danger/25 bg-danger/8 text-danger hover:border-danger/45 hover:bg-danger/15",
   );
 
 export function Button({
@@ -34,7 +60,7 @@ export function LinkButton({
 }
 
 export const inputClass =
-  "h-10 w-full rounded-lg border border-border bg-surface px-3 text-sm text-text placeholder:text-muted outline-none transition focus:border-primary focus:ring-3 focus:ring-primary/15 disabled:opacity-60";
+  "h-10 w-full rounded-lg border border-border-strong bg-input px-3 text-sm text-text placeholder:text-faint outline-none transition-[border-color,box-shadow] duration-150 focus:border-primary/60 focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--primary)_14%,transparent)] disabled:opacity-60";
 
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={clsx(inputClass, props.className)} />;
@@ -64,7 +90,7 @@ export function Field({
   const msg = Array.isArray(error) ? error[0] : error;
   return (
     <label className="block space-y-1.5" htmlFor={name}>
-      <span className="text-sm font-medium">{label}</span>
+      <span className="label-caps text-muted">{label}</span>
       {children}
       {msg ? <span className="block text-xs text-danger">{msg}</span> : hint ? <span className="block text-xs text-muted">{hint}</span> : null}
     </label>
@@ -73,7 +99,10 @@ export function Field({
 
 export function Card({ className, children, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div {...rest} className={clsx("rounded-[var(--radius-card)] border border-border bg-surface shadow-[var(--shadow)]", className)}>
+    <div
+      {...rest}
+      className={clsx("relative rounded-[var(--radius-card)] border border-border bg-surface shadow-[var(--shadow)] animate-in-up", className)}
+    >
       {children}
     </div>
   );
@@ -83,8 +112,8 @@ export function CardHeader({ title, description, action }: { title: string; desc
   return (
     <div className="flex items-start justify-between gap-4 border-b border-border px-5 py-4">
       <div>
-        <h3 className="text-sm font-semibold">{title}</h3>
-        {description && <p className="mt-0.5 text-xs text-muted">{description}</p>}
+        {description && <p className="label-caps mb-0.5 text-muted">{description}</p>}
+        <h3 className="font-display text-base font-bold tracking-tight">{title}</h3>
       </div>
       {action}
     </div>
@@ -92,37 +121,54 @@ export function CardHeader({ title, description, action }: { title: string; desc
 }
 
 const badgeTones = {
-  neutral: "bg-surface-2 text-muted",
-  primary: "bg-primary/10 text-primary",
-  success: "bg-success/12 text-success",
-  warning: "bg-warning/15 text-warning",
-  danger: "bg-danger/12 text-danger",
-  accent: "bg-accent/12 text-accent",
+  neutral: "border-border-strong bg-surface-2 text-muted",
+  primary: "border-primary/25 bg-primary/10 text-primary",
+  success: "border-success/25 bg-success/10 text-success",
+  warning: "border-warning/25 bg-warning/10 text-warning",
+  danger: "border-danger/25 bg-danger/10 text-danger",
+  accent: "border-accent/25 bg-accent/10 text-accent",
 };
 
 export function Badge({ tone = "neutral", children }: { tone?: keyof typeof badgeTones; children: React.ReactNode }) {
-  return <span className={clsx("inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize", badgeTones[tone])}>{children}</span>;
+  return (
+    <span className={clsx("inline-flex items-center rounded-full border px-2 py-0.5 font-display text-xs font-bold capitalize tracking-[0.05em]", badgeTones[tone])}>
+      {children}
+    </span>
+  );
 }
 
-export function PageHeader({ title, description, actions }: { title: string; description?: string; actions?: React.ReactNode }) {
+export function PageHeader({ title, description, actions, badge }: { title: string; description?: string; actions?: React.ReactNode; badge?: React.ReactNode }) {
   return (
-    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mb-7 flex flex-col gap-3 animate-in-down sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
-        {description && <p className="mt-1 text-sm text-muted">{description}</p>}
+        <div className="flex items-center gap-3">
+          <h2 className="font-display text-3xl font-bold leading-none tracking-tight">{title}</h2>
+          {badge}
+        </div>
+        {description && <p className="mt-2 text-sm text-muted">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>
   );
 }
 
+/** HOPE's pulsing "LIVE" pill. */
+export function LivePill({ label = "LIVE" }: { label?: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-success/25 bg-success/10 px-2.5 py-0.5">
+      <span className="size-1.5 rounded-full bg-success animate-glow" />
+      <span className="font-display text-[10px] font-bold tracking-[0.1em] text-success">{label}</span>
+    </span>
+  );
+}
+
 export function EmptyState({ icon: Icon, title, description, action }: { icon: LucideIcon; title: string; description: string; action?: React.ReactNode }) {
   return (
     <div className="grid place-items-center px-6 py-14 text-center">
-      <span className="grid size-12 place-items-center rounded-xl bg-primary/10 text-primary">
+      <span className="grid size-12 place-items-center rounded-xl border border-primary/25 bg-primary/10 text-primary shadow-[0_0_24px_color-mix(in_srgb,var(--primary)_18%,transparent)]">
         <Icon className="size-6" />
       </span>
-      <h3 className="mt-4 text-sm font-semibold">{title}</h3>
+      <h3 className="mt-4 font-display text-lg font-bold">{title}</h3>
       <p className="mt-1 max-w-sm text-sm text-muted">{description}</p>
       {action && <div className="mt-5">{action}</div>}
     </div>
@@ -137,35 +183,53 @@ export function Table({ children }: { children: React.ReactNode }) {
   );
 }
 export const Th = ({ className, ...p }: React.ThHTMLAttributes<HTMLTableCellElement>) => (
-  <th {...p} className={clsx("whitespace-nowrap border-b border-border bg-surface-2/60 px-4 py-2.5 text-xs font-medium text-muted", className)} />
+  <th {...p} className={clsx("label-caps whitespace-nowrap border-b border-border bg-surface-2 px-5 py-3 text-muted", className)} />
 );
 export const Td = ({ className, ...p }: React.TdHTMLAttributes<HTMLTableCellElement>) => (
-  <td {...p} className={clsx("whitespace-nowrap border-b border-border px-4 py-3", className)} />
+  <td {...p} className={clsx("whitespace-nowrap border-b border-border px-5 py-3.5", className)} />
 );
 
-export function Stat({ label, value, change, icon: Icon, children }: { label: string; value: string; change?: number; icon: LucideIcon; children?: React.ReactNode }) {
+/** HOPE KPI card: coloured top edge, corner glow, faded icon, big Rajdhani figure, caps label. */
+export function Stat({
+  label,
+  value,
+  change,
+  icon: Icon,
+  tone = "primary",
+  children,
+}: {
+  label: string;
+  value: React.ReactNode;
+  change?: number;
+  icon: LucideIcon;
+  tone?: Tone;
+  children?: React.ReactNode;
+}) {
   const up = (change ?? 0) >= 0;
   return (
-    <Card className="p-5">
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-muted">{label}</span>
-        <span className="grid size-8 place-items-center rounded-lg bg-primary/10 text-primary">
-          <Icon className="size-4" />
-        </span>
+    <div
+      className="group relative overflow-hidden rounded-[var(--radius-card)] border bg-surface px-5 pb-5 pt-6 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-200 animate-in-up hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+      style={{ borderColor: tint(tone, 12), borderTop: `2px solid ${toneVar[tone]}` }}
+    >
+      <div className="scanlines pointer-events-none absolute inset-0" />
+      <div className="pointer-events-none absolute right-0 top-0 size-28" style={{ background: `radial-gradient(circle at 100% 0%, ${tint(tone, 14)}, transparent 70%)` }} />
+      <Icon className={clsx("absolute right-4 top-4 size-7 opacity-25 transition-opacity duration-200 group-hover:opacity-50", toneText[tone])} strokeWidth={1.5} />
+      <div className="relative">
+        <p className={clsx("tabular truncate pr-8 font-display text-[2rem] font-bold leading-none tracking-tight", toneText[tone])}>{value}</p>
+        <p className="label-caps mt-2 text-muted">{label}</p>
+        <div className="mt-2 flex min-h-5 items-center justify-between gap-2">
+          {change !== undefined ? (
+            <span className={clsx("inline-flex items-center gap-0.5 text-xs font-medium", up ? "text-success" : "text-danger")}>
+              {up ? <ArrowUpRight className="size-3.5" /> : <ArrowDownRight className="size-3.5" />}
+              {Math.abs(change).toFixed(1)}% <span className="font-normal text-muted">vs prev.</span>
+            </span>
+          ) : (
+            <span />
+          )}
+          {children}
+        </div>
       </div>
-      <p className="tabular mt-3 text-2xl font-semibold tracking-tight">{value}</p>
-      <div className="mt-1 flex items-center justify-between gap-2">
-        {change !== undefined ? (
-          <span className={clsx("inline-flex items-center gap-0.5 text-xs font-medium", up ? "text-success" : "text-danger")}>
-            {up ? <ArrowUpRight className="size-3.5" /> : <ArrowDownRight className="size-3.5" />}
-            {Math.abs(change).toFixed(1)}% <span className="font-normal text-muted">vs prev.</span>
-          </span>
-        ) : (
-          <span />
-        )}
-        {children}
-      </div>
-    </Card>
+    </div>
   );
 }
 
@@ -174,11 +238,11 @@ export function Alert({ tone = "danger", children }: { tone?: "danger" | "succes
     <div
       role="status"
       className={clsx(
-        "rounded-lg border px-3 py-2 text-sm",
-        tone === "danger" && "border-danger/30 bg-danger/8 text-danger",
-        tone === "success" && "border-success/30 bg-success/8 text-success",
-        tone === "warning" && "border-warning/30 bg-warning/10 text-warning",
-        tone === "primary" && "border-primary/30 bg-primary/8 text-primary",
+        "rounded-xl border px-4 py-3 text-sm font-medium",
+        tone === "danger" && "border-danger/25 bg-danger/8 text-danger",
+        tone === "success" && "border-success/25 bg-success/8 text-success",
+        tone === "warning" && "border-warning/25 bg-warning/10 text-warning",
+        tone === "primary" && "border-primary/25 bg-primary/8 text-primary",
       )}
     >
       {children}
@@ -194,7 +258,12 @@ export function Avatar({ name, size = "md" }: { name: string; size?: "sm" | "md"
     .map((p) => p[0]!.toUpperCase())
     .join("");
   return (
-    <span className={clsx("grid shrink-0 place-items-center rounded-full bg-primary/12 font-medium text-primary", size === "sm" ? "size-7 text-[11px]" : "size-9 text-sm")}>
+    <span
+      className={clsx(
+        "grid shrink-0 place-items-center rounded-full border border-primary/25 bg-primary/10 font-display font-bold text-primary",
+        size === "sm" ? "size-7 text-[10px]" : "size-9 text-xs",
+      )}
+    >
       {letters}
     </span>
   );

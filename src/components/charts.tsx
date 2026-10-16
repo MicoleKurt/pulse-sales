@@ -44,6 +44,27 @@ export function RevenueChart({ data, currency, height = 280 }: { data: { label: 
   );
 }
 
+/** HOPE's dashboard trend: rounded violet columns with a faint hover band. */
+export function RevenueBars({ data, currency, height = 240 }: { data: { label: string; revenue: number }[]; currency: string; height?: number }) {
+  return (
+    <ResponsiveContainer width="100%" height={height}>
+      <BarChart data={data} margin={{ top: 6, right: 8, left: 0, bottom: 0 }}>
+        <defs>
+          <linearGradient id="bars" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.95} />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity={0.55} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+        <XAxis dataKey="label" {...axis} minTickGap={12} />
+        <YAxis {...axis} tickFormatter={fmt(currency)} width={56} />
+        <Tooltip {...tooltipStyle} cursor={{ fill: "color-mix(in srgb, var(--primary) 6%, transparent)" }} formatter={(v) => [fmt(currency)(Number(v)), "Revenue"]} />
+        <Bar dataKey="revenue" fill="url(#bars)" radius={[4, 4, 0, 0]} maxBarSize={40} />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
+
 export function BarList({ data, currency, height = 260, color = "var(--accent)" }: { data: { label: string; value: number }[]; currency: string; height?: number; color?: string }) {
   return (
     <ResponsiveContainer width="100%" height={height}>

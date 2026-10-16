@@ -3,7 +3,8 @@
  * re-coloured to Pulse violet with sky accents. Pure SVG + CSS; no animation library.
  */
 export function FloatingPaths({ position = 1 }: { position?: 1 | -1 }) {
-  const paths = Array.from({ length: 36 }, (_, i) => {
+  const paths = Array.from({ length: 18 }, (_, j) => {
+    const i = j * 2;
     const p = position;
     const accent = i % 5 === 0;
     const opacity = Math.min(0.16 + i * 0.012, 0.5);

@@ -102,7 +102,7 @@ export function Card({ className, children, ...rest }: React.HTMLAttributes<HTML
   return (
     <div
       {...rest}
-      className={cn("relative rounded-[var(--radius-card)] border border-border bg-surface shadow-[var(--shadow)] animate-in-up", className)}
+      className={cn("relative rounded-[var(--radius-card)] border border-border bg-surface shadow-[var(--shadow)]", className)}
     >
       {children}
     </div>
@@ -140,7 +140,7 @@ export function Badge({ tone = "neutral", children }: { tone?: keyof typeof badg
 
 export function PageHeader({ title, description, actions, badge }: { title: string; description?: string; actions?: React.ReactNode; badge?: React.ReactNode }) {
   return (
-    <div className="mb-7 flex flex-col gap-3 animate-in-down sm:flex-row sm:items-end sm:justify-between">
+    <div className="mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <div className="flex items-center gap-3">
           <h2 className="font-display text-3xl font-bold leading-none tracking-tight">{title}</h2>
@@ -209,7 +209,7 @@ export function Stat({
   const up = (change ?? 0) >= 0;
   return (
     <div
-      className="group relative overflow-hidden rounded-[var(--radius-card)] border bg-surface px-5 pb-5 pt-6 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-200 animate-in-up hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+      className="group relative overflow-hidden rounded-[var(--radius-card)] border bg-surface px-5 pb-5 pt-6 shadow-[var(--shadow)] transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
       style={{ borderColor: tint(tone, 12), borderTop: `2px solid ${toneVar[tone]}` }}
     >
       <div className="scanlines pointer-events-none absolute inset-0" />

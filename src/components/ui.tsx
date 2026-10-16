@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 import type { LucideIcon } from "lucide-react";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
@@ -47,7 +48,7 @@ export function Button({
   className,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; size?: "sm" | "md" }) {
-  return <button {...props} className={clsx(buttonClass(variant, size), className)} />;
+  return <button {...props} className={cn(buttonClass(variant, size), className)} />;
 }
 
 export function LinkButton({
@@ -56,22 +57,22 @@ export function LinkButton({
   className,
   ...props
 }: React.ComponentProps<typeof Link> & { variant?: Variant; size?: "sm" | "md" }) {
-  return <Link {...props} className={clsx(buttonClass(variant, size), className)} />;
+  return <Link {...props} className={cn(buttonClass(variant, size), className)} />;
 }
 
 export const inputClass =
   "h-10 w-full rounded-lg border border-border-strong bg-input px-3 text-sm text-text placeholder:text-faint outline-none transition-[border-color,box-shadow] duration-150 focus:border-primary/60 focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--primary)_14%,transparent)] disabled:opacity-60";
 
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <input {...props} className={clsx(inputClass, props.className)} />;
+  return <input {...props} className={cn(inputClass, props.className)} />;
 }
 
 export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
-  return <select {...props} className={clsx(inputClass, "pr-8", props.className)} />;
+  return <select {...props} className={cn(inputClass, "pr-8", props.className)} />;
 }
 
 export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return <textarea {...props} className={clsx(inputClass, "h-auto min-h-24 py-2", props.className)} />;
+  return <textarea {...props} className={cn(inputClass, "h-auto min-h-24 py-2", props.className)} />;
 }
 
 export function Field({
@@ -101,7 +102,7 @@ export function Card({ className, children, ...rest }: React.HTMLAttributes<HTML
   return (
     <div
       {...rest}
-      className={clsx("relative rounded-[var(--radius-card)] border border-border bg-surface shadow-[var(--shadow)] animate-in-up", className)}
+      className={cn("relative rounded-[var(--radius-card)] border border-border bg-surface shadow-[var(--shadow)] animate-in-up", className)}
     >
       {children}
     </div>

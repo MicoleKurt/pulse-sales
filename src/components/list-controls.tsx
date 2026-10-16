@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { clsx } from "clsx";
-import { inputClass } from "./ui";
+import { buttonClass, inputClass } from "./ui";
+import { cn } from "@/lib/cn";
 
 export const PAGE_SIZE = 20;
 
@@ -69,12 +70,12 @@ export function FilterBar({ q, children, placeholder = "Search…" }: { q?: stri
     <form className="flex flex-wrap items-center gap-2 border-b border-border p-3">
       <label className="relative min-w-48 flex-1">
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted" />
-        <input name="q" defaultValue={q} placeholder={placeholder} aria-label="Search" className={clsx(inputClass, "h-9 pl-9")} />
+        <input name="q" defaultValue={q} placeholder={placeholder} aria-label="Search" className={cn(inputClass, "h-9 pl-9")} />
       </label>
       {children}
-      <button className="h-9 rounded-lg border border-border bg-surface px-3 text-sm font-medium hover:bg-surface-2">Apply</button>
+      <button className={cn(buttonClass("secondary"), "h-9")}>Apply</button>
     </form>
   );
 }
 
-export const filterSelect = clsx(inputClass, "h-9 w-auto");
+export const filterSelect = cn(inputClass, "h-9 w-auto");

@@ -9,7 +9,7 @@ import { ArrowDownRight, ArrowUpRight } from "lucide-react";
  * Rajdhani display type for headings/labels, glass-dark cards with scanlines and corner glows.
  */
 
-type Variant = "primary" | "secondary" | "ghost" | "danger" | "solid";
+export type Variant = "primary" | "secondary" | "ghost" | "danger" | "solid";
 export type Tone = "primary" | "accent" | "pink" | "gold" | "success" | "danger";
 
 const toneVar: Record<Tone, string> = {

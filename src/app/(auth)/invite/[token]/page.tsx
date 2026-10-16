@@ -22,7 +22,7 @@ export default async function InvitePage({ params }: { params: Promise<{ token: 
   const session = await getSession();
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">Join {inv.orgName}</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight">Join {inv.orgName}</h1>
       <p className="mt-1 text-sm text-muted">
         You&apos;ve been invited as <strong>{ROLE_LABEL[inv.inv.role]}</strong> ({inv.inv.email}).
       </p>
@@ -31,7 +31,7 @@ export default async function InvitePage({ params }: { params: Promise<{ token: 
           <>
             <ActionForm action={acceptInvite} className="space-y-3">
               <input type="hidden" name="token" value={token} />
-              <SubmitButton className="w-full">Accept invitation</SubmitButton>
+              <SubmitButton variant="solid" className="w-full">Accept invitation</SubmitButton>
             </ActionForm>
             <form action={logout}>
               <button className="w-full text-center text-sm text-muted hover:text-text">Not {session.user.email}? Sign out</button>
@@ -39,7 +39,7 @@ export default async function InvitePage({ params }: { params: Promise<{ token: 
           </>
         ) : (
           <>
-            <LinkButton href={`/signup?invite=${token}&email=${encodeURIComponent(inv.inv.email)}`} className="w-full">
+            <LinkButton href={`/signup?invite=${token}&email=${encodeURIComponent(inv.inv.email)}`} variant="solid" className="w-full">
               Create account
             </LinkButton>
             <LinkButton href={`/login?next=/invite/${token}`} variant="secondary" className="w-full">

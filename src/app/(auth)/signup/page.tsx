@@ -8,7 +8,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
   const { invite, email } = await searchParams;
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">Create your account</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight">Create your account</h1>
       <p className="mt-1 text-sm text-muted">{invite ? "Create an account to join your team." : "Start your 14-day Pro trial. No card required."}</p>
       <SignupForm invite={invite} email={email} />
       <p className="mt-6 text-center text-sm text-muted">

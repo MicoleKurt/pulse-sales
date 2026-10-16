@@ -18,7 +18,7 @@ export default async function ResetPasswordPage({ searchParams }: { searchParams
     );
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">Choose a new password</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight">Choose a new password</h1>
       <ResetForm token={token} />
     </>
   );

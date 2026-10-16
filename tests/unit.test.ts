@@ -4,6 +4,16 @@ import { parseCsv } from "@/lib/csv";
 import { toCsv } from "@/lib/export";
 import { parseRange, previousRange } from "@/lib/queries";
 import { pctChange, slugify } from "@/lib/format";
+import { isPooledUrl } from "@/db/url";
+
+describe("pooled connection detection", () => {
+  it("recognises Supabase and Neon poolers but not direct connections", () => {
+    expect(isPooledUrl("postgresql://u:p@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres")).toBe(true);
+    expect(isPooledUrl("postgresql://u:p@ep-cool-name-123-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require")).toBe(true);
+    expect(isPooledUrl("postgresql://u:p@ep-cool-name-123.ap-southeast-1.aws.neon.tech/neondb?sslmode=require")).toBe(false);
+    expect(isPooledUrl("postgres://postgres:p@localhost:5432/pulse_sales")).toBe(false);
+  });
+});
 
 describe("rights defaults", () => {
   it("owner holds every right", () => {

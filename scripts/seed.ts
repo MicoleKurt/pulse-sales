@@ -12,6 +12,7 @@ import postgres from "postgres";
 import bcrypt from "bcryptjs";
 import { sql } from "drizzle-orm";
 import * as schema from "../src/db/schema";
+import { isPooledUrl } from "../src/db/url";
 import { ALL_RIGHTS, DEFAULT_RIGHTS, ROLES } from "../src/lib/rights";
 import { DEFAULT_PLAN_LIMITS } from "../src/lib/plans";
 
@@ -25,7 +26,7 @@ if (!isLocal && (!process.env.SEED_PASSWORD || process.env.SEED_PASSWORD === DEF
   process.exit(1);
 }
 
-const client = postgres(url, { max: 1, prepare: !/:6543\//.test(url) });
+const client = postgres(url, { max: 1, prepare: !isPooledUrl(url) });
 const db = drizzle(client, { schema, casing: "snake_case" });
 
 // Deterministic PRNG so every seed produces the same data.

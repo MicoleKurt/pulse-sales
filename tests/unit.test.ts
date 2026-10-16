@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ALL_RIGHTS, DEFAULT_RIGHTS } from "@/lib/rights";
-import { parseCsv } from "@/components/csv-import";
+import { parseCsv } from "@/lib/csv";
 import { toCsv } from "@/lib/export";
 import { parseRange, previousRange } from "@/lib/queries";
 import { pctChange, slugify } from "@/lib/format";

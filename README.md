@@ -68,10 +68,16 @@ All demo accounts use the password in `SEED_PASSWORD` (`.env.example` default: `
 2. Forward webhooks: `stripe listen --forward-to localhost:3000/api/stripe/webhook` and copy the signing secret
    into `STRIPE_WEBHOOK_SECRET`.
 
-## Deploying (Vercel + any Postgres)
+## Deploying (Supabase + Vercel, free tiers)
 
-Set the same env vars in Vercel (`APP_URL` = your domain), run `npm run db:migrate` against the production
-database once, then create your first platform admin:
+1. **Database:** create a Supabase project, then copy *Connect → Transaction pooler* (port 6543) into
+   `DATABASE_URL` in `.env.local`. The app turns off prepared statements automatically on the pooler.
+2. **Schema + data:** `npm run db:migrate`, then `npm run db:seed` with a strong `SEED_PASSWORD`
+   (the seed refuses the public default on a hosted database because it creates a platform super admin).
+3. **Vercel:** import the GitHub repo, set `DATABASE_URL`, `APP_URL` (the Vercel URL) and any Stripe vars,
+   and deploy. Every pull request gets its own preview deployment.
+
+Without the seed, create your first platform admin after signing up:
 
 ```sql
 insert into platform_admins (user_id, role) select id, 'super' from users where email = 'you@example.com';

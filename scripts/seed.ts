@@ -15,7 +15,17 @@ import * as schema from "../src/db/schema";
 import { ALL_RIGHTS, DEFAULT_RIGHTS, ROLES } from "../src/lib/rights";
 import { DEFAULT_PLAN_LIMITS } from "../src/lib/plans";
 
-const client = postgres(process.env.DATABASE_URL!, { max: 1 });
+const DEFAULT_SEED_PASSWORD = "pulse-demo-123";
+const url = process.env.DATABASE_URL!;
+const isLocal = /@(localhost|127\.0\.0\.1)[:/]/.test(url);
+// The default demo password is public (README), so never use it on a hosted database:
+// the seed creates a platform super admin.
+if (!isLocal && (!process.env.SEED_PASSWORD || process.env.SEED_PASSWORD === DEFAULT_SEED_PASSWORD)) {
+  console.error("Refusing to seed a hosted database with the default demo password. Set a strong SEED_PASSWORD in .env.local.");
+  process.exit(1);
+}
+
+const client = postgres(url, { max: 1, prepare: !/:6543\//.test(url) });
 const db = drizzle(client, { schema, casing: "snake_case" });
 
 // Deterministic PRNG so every seed produces the same data.
@@ -45,7 +55,7 @@ async function main() {
 
   await db.insert(schema.planLimits).values(DEFAULT_PLAN_LIMITS);
 
-  const passwordHash = await bcrypt.hash(process.env.SEED_PASSWORD ?? "pulse-demo-123", 11);
+  const passwordHash = await bcrypt.hash(process.env.SEED_PASSWORD ?? DEFAULT_SEED_PASSWORD, 11);
   const mkUser = async (name: string, email: string, createdAt = daysAgo(int(30, 360))) =>
     (await db.insert(schema.users).values({ name, email, passwordHash, createdAt }).returning())[0]!;
 

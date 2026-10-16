@@ -22,7 +22,7 @@ export function LoginForm({ next }: { next?: string }) {
               Forgot password?
             </Link>
           </div>
-          <SubmitButton className="w-full">Sign in</SubmitButton>
+          <SubmitButton variant="solid" className="w-full">Sign in</SubmitButton>
         </>
       )}
     </ActionForm>
@@ -44,7 +44,7 @@ export function SignupForm({ invite, email }: { invite?: string; email?: string 
           <Field label="Password" name="password" error={s?.fieldErrors?.password} hint="At least 8 characters.">
             <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={8} />
           </Field>
-          <SubmitButton className="w-full">Create account</SubmitButton>
+          <SubmitButton variant="solid" className="w-full">Create account</SubmitButton>
         </>
       )}
     </ActionForm>
@@ -59,7 +59,7 @@ export function ForgotForm() {
           <Field label="Email" name="email" error={s?.fieldErrors?.email}>
             <Input id="email" name="email" type="email" required />
           </Field>
-          <SubmitButton className="w-full">Send reset link</SubmitButton>
+          <SubmitButton variant="solid" className="w-full">Send reset link</SubmitButton>
         </>
       )}
     </ActionForm>
@@ -75,7 +75,7 @@ export function ResetForm({ token }: { token: string }) {
           <Field label="New password" name="password" error={s?.fieldErrors?.password} hint="At least 8 characters.">
             <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={8} />
           </Field>
-          <SubmitButton className="w-full">Update password</SubmitButton>
+          <SubmitButton variant="solid" className="w-full">Update password</SubmitButton>
         </>
       )}
     </ActionForm>
@@ -102,7 +102,7 @@ export function OnboardingForm() {
               <Input id="taxRate" name="taxRate" type="number" step="0.01" min="0" max="50" defaultValue="0" />
             </Field>
           </div>
-          <SubmitButton className="w-full">Create workspace</SubmitButton>
+          <SubmitButton variant="solid" className="w-full">Create workspace</SubmitButton>
         </>
       )}
     </ActionForm>

@@ -8,7 +8,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const { next } = await searchParams;
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight">Welcome back</h1>
       <p className="mt-1 text-sm text-muted">Sign in to your workspace.</p>
       <LoginForm next={next} />
       <p className="mt-6 text-center text-sm text-muted">

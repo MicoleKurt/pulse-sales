@@ -4,11 +4,11 @@ import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { Loader2 } from "lucide-react";
 import type { ActionState } from "@/lib/action";
-import { Alert, Button } from "./ui";
+import { Alert, Button, type Variant } from "./ui";
 
 type Action = (prev: ActionState, form: FormData) => Promise<ActionState>;
 
-export function SubmitButton({ children, variant, size, className }: { children: React.ReactNode; variant?: "primary" | "secondary" | "danger" | "ghost"; size?: "sm" | "md"; className?: string }) {
+export function SubmitButton({ children, variant, size, className }: { children: React.ReactNode; variant?: Variant; size?: "sm" | "md"; className?: string }) {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" variant={variant} size={size} disabled={pending} className={className}>
@@ -62,7 +62,7 @@ export function ActionButton({
   action: Action;
   children: React.ReactNode;
   confirm?: string;
-  variant?: "primary" | "secondary" | "danger" | "ghost";
+  variant?: Variant;
   size?: "sm" | "md";
   fields?: Record<string, string>;
 }) {

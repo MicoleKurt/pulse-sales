@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 
-/** HOPE-style count-up for KPI figures (ease-out quart). Renders the final value on the server. */
+/** HOPE-style count-up for KPI figures (ease-out quart). Starts at 0 on server and client so hydration never flashes the real value first. */
 export function CountUp({ value, kind, currency = "USD", duration = 1600 }: { value: number; kind: "money" | "number"; currency?: string; duration?: number }) {
-  const [shown, setShown] = useState(value);
+  const [shown, setShown] = useState(0);
   useEffect(() => {
     // Skip the effect where frames may never arrive (background tabs) or motion is unwanted.
-    if (!value || document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!value || document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setShown(value);
+      return;
+    }
     let raf = 0;
     const start = performance.now();
     const tick = (now: number) => {
@@ -15,10 +18,7 @@ export function CountUp({ value, kind, currency = "USD", duration = 1600 }: { va
       setShown(value * (1 - Math.pow(1 - p, 4)));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame((now) => {
-      setShown(0);
-      tick(now);
-    });
+    raf = requestAnimationFrame(tick);
     // Always land on the real number, even if frames are throttled mid-animation.
     const settle = setTimeout(() => setShown(value), duration + 250);
     return () => {
@@ -42,7 +42,7 @@ export function LiveClock() {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
-  if (!now) return <span className="opacity-0">--</span>;
+  if (!now) return <span className="inline-block w-56" aria-hidden />;
   return (
     <span>
       {now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })} —{" "}

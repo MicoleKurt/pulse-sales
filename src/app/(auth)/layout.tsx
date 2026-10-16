@@ -4,7 +4,7 @@ import { Activity } from "lucide-react";
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
-      <div className="hidden flex-col justify-between bg-gradient-to-br from-sidebar-from to-sidebar-to p-10 text-sidebar-fg lg:flex">
+      <div className="hidden flex-col justify-between bg-sidebar-bg p-10 text-sidebar-fg lg:flex">
         <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
           <span className="grid size-8 place-items-center rounded-lg bg-white/15">
             <Activity className="size-4" />

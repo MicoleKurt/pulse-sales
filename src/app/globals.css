@@ -2,67 +2,159 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Design tokens — the only place colors are defined. */
+/*
+ * Design tokens — the only place colors are defined.
+ * Visual language ported from HopeSMS (dark command-center, glow accents, Rajdhani + Outfit),
+ * re-coloured: HOPE's neon green/cyan become Pulse violet/sky, with pink and gold as secondary accents.
+ */
 :root {
-  --bg: #f8fafc;
+  --bg: #f6f5fb;
   --surface: #ffffff;
-  --surface-2: #f1f5f9;
-  --border: #e2e8f0;
-  --text: #0f172a;
-  --muted: #64748b;
-  --primary: #4f46e5;
+  --surface-2: #f0eef9;
+  --surface-3: #ffffff;
+  --input: #ffffff;
+  --border: rgb(76 29 149 / 0.12);
+  --border-strong: rgb(76 29 149 / 0.24);
+  --text: #1b1640;
+  --muted: #5b5585;
+  --faint: #8f88b8;
+  --primary: #6d28d9;
   --primary-fg: #ffffff;
-  --accent: #14b8a6;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --sidebar-from: #312e81;
-  --sidebar-to: #4c1d95;
-  --sidebar-fg: #ffffff;
-  --admin-bg: #0b1020;
-  --shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 16px rgb(15 23 42 / 0.06);
+  --accent: #0284c7;
+  --pink: #db2777;
+  --gold: #b45309;
+  --success: #059669;
+  --warning: #b45309;
+  --danger: #e11d48;
+  --sidebar-bg: #120f2a;
+  --sidebar-fg: #e6e1ff;
+  --sidebar-muted: #9189c2;
+  --sidebar-active: #c4b5fd;
+  --header-bg: rgb(255 255 255 / 0.85);
+  --admin-bg: #05040c;
+  --shadow: 0 1px 2px rgb(27 22 64 / 0.05), 0 6px 20px rgb(27 22 64 / 0.07);
+  --shadow-lift: 0 18px 44px rgb(27 22 64 / 0.14);
+  --scanline: rgb(76 29 149 / 0.015);
 }
 
 .dark {
-  --bg: #0b1020;
-  --surface: #121831;
-  --surface-2: #182042;
-  --border: #1e2747;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --primary: #6366f1;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+  --bg: #07060f;
+  --surface: #0d0b1c;
+  --surface-2: #141129;
+  --surface-3: #1a1634;
+  --input: #0a0817;
+  --border: rgb(167 139 250 / 0.1);
+  --border-strong: rgb(167 139 250 / 0.22);
+  --text: #e6e1ff;
+  --muted: #9189c2;
+  --faint: #5d5590;
+  --primary: #a78bfa;
+  --primary-fg: #140b33;
+  --accent: #38bdf8;
+  --pink: #f472b6;
+  --gold: #fbbf24;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #fb7185;
+  --sidebar-bg: #0a0816;
+  --sidebar-fg: #e6e1ff;
+  --sidebar-muted: #8178b4;
+  --sidebar-active: #a78bfa;
+  --header-bg: rgb(11 9 26 / 0.85);
+  --admin-bg: #05040c;
+  --shadow: 0 4px 20px rgb(0 0 0 / 0.45);
+  --shadow-lift: 0 20px 56px rgb(0 0 0 / 0.55);
+  --scanline: rgb(167 139 250 / 0.014);
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-input: var(--input);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-text: var(--text);
   --color-muted: var(--muted);
+  --color-faint: var(--faint);
   --color-primary: var(--primary);
   --color-primary-fg: var(--primary-fg);
   --color-accent: var(--accent);
+  --color-pink: var(--pink);
+  --color-gold: var(--gold);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
-  --color-sidebar-from: var(--sidebar-from);
-  --color-sidebar-to: var(--sidebar-to);
+  --color-sidebar-bg: var(--sidebar-bg);
   --color-sidebar-fg: var(--sidebar-fg);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-header-bg: var(--header-bg);
   --color-admin-bg: var(--admin-bg);
-  --font-sans: var(--font-inter);
-  --radius-card: 12px;
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --radius-card: 14px;
   --shadow-card: var(--shadow);
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* HOPE's small uppercase display label (section headers, KPI labels, table heads). */
+.label-caps {
+  font-family: var(--font-display), sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Faint horizontal scanlines layered on cards (HOPE "terminal" texture). */
+.scanlines {
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, var(--scanline) 3px, var(--scanline) 4px);
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+input[type="date"], input[type="month"] { color-scheme: light; }
+.dark input[type="date"], .dark input[type="month"] { color-scheme: dark; }
+
+/* ── Motion (transform/opacity only) ── */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+@keyframes fadeInLeft { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+@keyframes glowPulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+@keyframes ambientDrift {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(12px, -8px) scale(1.04); }
+  66% { transform: translate(-6px, 10px) scale(0.97); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes shimmer { from { background-position: -400px 0; } to { background-position: calc(400px + 100%) 0; } }
+
+.animate-in-up { animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-in-down { animation: fadeInDown 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-in-left { animation: fadeInLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-glow { animation: glowPulse 1.6s ease-in-out infinite; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }

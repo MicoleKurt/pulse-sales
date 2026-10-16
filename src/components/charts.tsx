@@ -2,10 +2,24 @@
 
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-const axis = { stroke: "var(--muted)", fontSize: 11, tickLine: false, axisLine: false };
+// HOPE chart styling: Rajdhani ticks, faint dashed grid, dark elevated tooltip with a glowing value.
+const axis = {
+  stroke: "var(--muted)",
+  tick: { fill: "var(--muted)", fontSize: 11, fontFamily: "var(--font-display)" },
+  tickLine: false,
+  axisLine: false,
+};
 const tooltipStyle = {
-  contentStyle: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12, color: "var(--text)" },
-  labelStyle: { color: "var(--muted)" },
+  contentStyle: {
+    background: "var(--surface-3)",
+    border: "1px solid var(--border-strong)",
+    borderRadius: 8,
+    boxShadow: "var(--shadow-lift)",
+    fontSize: 12,
+    color: "var(--text)",
+  },
+  labelStyle: { color: "var(--muted)", fontFamily: "var(--font-display)", letterSpacing: "0.06em" },
+  itemStyle: { color: "var(--primary)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14 },
 };
 const fmt = (currency: string) => (v: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency, notation: "compact", maximumFractionDigits: 1 }).format(v);
@@ -20,7 +34,7 @@ export function RevenueChart({ data, currency, height = 280 }: { data: { label: 
             <stop offset="100%" stopColor="var(--primary)" stopOpacity={0} />
           </linearGradient>
         </defs>
-        <CartesianGrid stroke="var(--border)" vertical={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
         <XAxis dataKey="label" {...axis} minTickGap={24} />
         <YAxis {...axis} tickFormatter={fmt(currency)} width={60} />
         <Tooltip {...tooltipStyle} formatter={(v) => [fmt(currency)(Number(v)), "Revenue"]} />
@@ -34,7 +48,7 @@ export function BarList({ data, currency, height = 260, color = "var(--accent)" 
   return (
     <ResponsiveContainer width="100%" height={height}>
       <BarChart data={data} layout="vertical" margin={{ top: 0, right: 12, left: 0, bottom: 0 }}>
-        <CartesianGrid stroke="var(--border)" horizontal={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
         <XAxis type="number" {...axis} tickFormatter={fmt(currency)} />
         <YAxis type="category" dataKey="label" {...axis} width={110} />
         <Tooltip {...tooltipStyle} cursor={{ fill: "var(--surface-2)" }} formatter={(v) => [fmt(currency)(Number(v)), "Revenue"]} />

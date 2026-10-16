@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit, Rajdhani } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+// HOPE's type pairing: Rajdhani for display/labels, Outfit for body copy.
+const display = Rajdhani({ variable: "--font-display", subsets: ["latin"], weight: ["500", "600", "700"] });
+const body = Outfit({ variable: "--font-body", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Pulse Sales",
@@ -13,8 +15,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.variable}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+      <body className={`${display.variable} ${body.variable}`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {children}
         </ThemeProvider>
       </body>

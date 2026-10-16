@@ -5,6 +5,7 @@ import { db, schema } from "@/db";
 import type { Plan } from "@/db/schema";
 import { audit, getLimits, notify } from "./services";
 import { ActionError } from "./auth";
+import { appUrl } from "@/lib/url";
 
 /**
  * Billing has two providers behind one interface:
@@ -19,7 +20,6 @@ export interface BillingProvider {
   cancel(orgId: string): Promise<void>;
 }
 
-const appUrl = () => process.env.APP_URL ?? "http://localhost:3000";
 
 export async function activeSeats(orgId: string) {
   const [{ n }] = await db

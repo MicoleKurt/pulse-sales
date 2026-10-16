@@ -9,8 +9,8 @@ import { ActionError, createSession, destroySession, hashPassword, requireUser, 
 import { newToken, sha256 } from "@/lib/crypto";
 import { rateLimit } from "@/lib/rate-limit";
 import { audit, createOrganization, notify, sendMail } from "@/lib/services";
+import { appUrl } from "@/lib/url";
 
-const appUrl = () => process.env.APP_URL ?? "http://localhost:3000";
 const email = z.string().trim().toLowerCase().email("Enter a valid email");
 const password = z.string().min(8, "At least 8 characters").max(200);
 

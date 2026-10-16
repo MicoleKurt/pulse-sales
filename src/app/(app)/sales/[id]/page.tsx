@@ -8,6 +8,11 @@ import { deleteSale } from "../actions";
 import { loadSale } from "./load";
 import { InvoiceButton } from "./invoice-button";
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { sale } = await loadSale(await getTenant(), (await params).id);
+  return { title: `Sale #${sale.number} · Pulse Sales` };
+}
+
 export default async function SaleDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const t = await getTenant();

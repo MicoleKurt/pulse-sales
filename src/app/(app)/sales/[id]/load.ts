@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import { and, asc, eq, isNull } from "drizzle-orm";
 import { z } from "zod";
 import { db, schema } from "@/db";
+import { cache } from "react";
 import type { Tenant } from "@/lib/auth";
 
-export async function loadSale(t: Tenant, rawId: string) {
+// Cached per request so the page and its metadata share one query.
+export const loadSale = cache(async (t: Tenant, rawId: string) => {
   const id = z.string().uuid().safeParse(rawId);
   if (!id.success) notFound();
   const [row] = await db
@@ -24,4 +26,4 @@ export async function loadSale(t: Tenant, rawId: string) {
     .where(and(eq(schema.saleItems.saleId, id.data), isNull(schema.saleItems.deletedAt)))
     .orderBy(asc(schema.saleItems.createdAt));
   return { ...row, items };
-}
+});

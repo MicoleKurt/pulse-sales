@@ -68,14 +68,27 @@ All demo accounts use the password in `SEED_PASSWORD` (`.env.example` default: `
 2. Forward webhooks: `stripe listen --forward-to localhost:3000/api/stripe/webhook` and copy the signing secret
    into `STRIPE_WEBHOOK_SECRET`.
 
-## Deploying (Supabase + Vercel, free tiers)
+## Deploying (Vercel + Neon, free tiers)
 
-1. **Database:** create a Supabase project, then copy *Connect → Transaction pooler* (port 6543) into
-   `DATABASE_URL` in `.env.local`. The app turns off prepared statements automatically on the pooler.
-2. **Schema + data:** `npm run db:migrate`, then `npm run db:seed` with a strong `SEED_PASSWORD`
-   (the seed refuses the public default on a hosted database because it creates a platform super admin).
-3. **Vercel:** import the GitHub repo, set `DATABASE_URL`, `APP_URL` (the Vercel URL) and any Stripe vars,
-   and deploy. Every pull request gets its own preview deployment.
+Live: https://pulse-sales-beige.vercel.app. Vercel Hobby hosts the app (functions in `sin1`), and Neon Free
+holds the data. Neon is installed from the Vercel Marketplace, which provides `DATABASE_URL` and `DATABASE_URL_UNPOOLED`.
+
+| Vercel environment | Neon resource | Used by |
+|---|---|---|
+| Production | `pulse-sales-db` | the live site |
+| Preview + Development | `pulse-sales-dev` | PR previews, local dev, `npm test`, `npm run db:seed` |
+
+- **Local env:** `vercel env pull .env.neon --environment development` gets the **dev** database. Load it
+  before running `npm run db:migrate`, `npm run db:seed` or `npm test`.
+- **Seed protection:** the production database carries the tag `COMMENT ON DATABASE neondb IS 'pulse-env=production'`.
+  `npm run db:seed` refuses any database with that tag, because seeding wipes everything. It also refuses the public
+  default `SEED_PASSWORD` on any hosted database, because it creates a platform super admin.
+- **Production migrations:** pull the production env into a temporary file outside the repo, run
+  `npm run db:migrate` with it, then delete the file.
+- **Protection:** Vercel deployment protection is set to *previews only*, so production is public and PR previews need a Vercel login.
+
+Supabase also works: put its *Transaction pooler* URL (port 6543) in `DATABASE_URL`, and prepared statements
+are turned off automatically.
 
 Without the seed, create your first platform admin after signing up:
 

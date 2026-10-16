@@ -17,6 +17,7 @@ import { ALL_RIGHTS, DEFAULT_RIGHTS, ROLES } from "../src/lib/rights";
 import { DEFAULT_PLAN_LIMITS } from "../src/lib/plans";
 
 const DEFAULT_SEED_PASSWORD = "pulse-demo-123";
+const PRODUCTION_DB_TAG = "pulse-env=production";
 const url = process.env.DATABASE_URL!;
 const isLocal = /@(localhost|127\.0\.0\.1)[:/]/.test(url);
 // The default demo password is public (README), so never use it on a hosted database:
@@ -51,6 +52,15 @@ const PRODUCTS: [string, string, number][] = [
 ];
 
 async function main() {
+  // The production database is tagged with a database comment (see README). Seeding wipes
+  // everything, so never run against it.
+  const [tag] = await client`select shobj_description(oid, 'pg_database') as tag from pg_database where datname = current_database()`;
+  if (String(tag?.tag ?? "").includes(PRODUCTION_DB_TAG)) {
+    console.error(`Refusing to seed: this is the production database (tagged "${PRODUCTION_DB_TAG}").`);
+    await client.end();
+    process.exit(1);
+  }
+
   console.log("Resetting data…");
   await db.execute(sql`truncate table users, organizations, plan_limits, webhook_events, email_outbox restart identity cascade`);
 

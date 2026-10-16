@@ -88,7 +88,7 @@ export function OnboardingForm() {
       {(st) => (
         <>
           <Field label="Company name" name="name" error={st?.fieldErrors?.name}>
-            <Input id="name" name="name" placeholder="Acme Trading Co." required />
+            <Input id="name" name="name" placeholder="Your company name" required />
           </Field>
           <div className="grid grid-cols-2 gap-3">
             <Field label="Currency" name="currency">

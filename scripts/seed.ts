@@ -195,7 +195,6 @@ async function main() {
   await db.update(schema.organizations).set({ nextSaleNo: 1002 }).where(sql`id = ${build.id}`);
 
   await db.insert(schema.auditLog).values({ organizationId: acme.id, actorId: people.owner.id, entity: "organization", entityId: acme.id, action: "seed", after: { note: "Demo data loaded" } });
-  await db.insert(schema.announcements).values({ message: "Welcome to Pulse Sales! This is demo data. Sign in as any @acme.test account to explore roles.", createdBy: admin.id, endsAt: daysAgo(-30) });
   await db.insert(schema.notifications).values({ userId: people.owner.id, organizationId: acme.id, title: "Payment received", body: "Business plan renewed.", href: "/settings/billing" });
 
   console.log("Done. Accounts (password = SEED_PASSWORD):");

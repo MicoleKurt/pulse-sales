@@ -64,21 +64,6 @@ export default async function Landing() {
             <LinkButton href="/signup" className="h-12 px-6 text-base">Start your free trial</LinkButton>
             <LinkButton href="/login" variant="secondary" className="h-12 px-6 text-base">Sign in</LinkButton>
           </div>
-          <div className="mx-auto mt-14 grid max-w-4xl gap-4 rounded-2xl border border-border bg-surface p-4 text-left shadow-[var(--shadow)] sm:grid-cols-4">
-            {[
-              ["Revenue", "$48,210", "+12.4%"],
-              ["Sales", "312", "+8.1%"],
-              ["Avg. order", "$154.52", "+3.9%"],
-              ["Top rep", "Maria S.", "$11.2k"],
-            ].map(([l, v, c]) => (
-              <div key={l} className="rounded-xl bg-surface-2 p-4">
-                <p className="text-xs text-muted">{l}</p>
-                <p className="tabular mt-1 text-xl font-semibold">{v}</p>
-                <p className="text-xs text-success">{c}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-2 text-xs text-muted">Example dashboard</p>
         </div>
       </section>
 

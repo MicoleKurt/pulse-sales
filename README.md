@@ -19,8 +19,9 @@ npm run db:setup                   # run migrations + load demo data
 npm run dev                        # http://localhost:3000
 ```
 
-### Demo accounts
+### Demo accounts (dev database only)
 
+`npm run db:seed` fills the **dev** database with fake companies for testing. Production holds no demo data.
 All demo accounts use the password in `SEED_PASSWORD` (`.env.example` default: `pulse-demo-123`).
 
 | Email | What you'll see |

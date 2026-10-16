@@ -143,6 +143,10 @@ input[type="date"], input[type="month"] { color-scheme: light; }
   100% { transform: translate(0, 0) scale(1); }
 }
 @keyframes shimmer { from { background-position: -400px 0; } to { background-position: calc(400px + 100%) 0; } }
+@keyframes growX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.animate-grow-x { transform-origin: left; animation: growX 1.1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-drift { animation: ambientDrift 20s ease-in-out infinite; }
 
 .animate-in-up { animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-in-down { animation: fadeInDown 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }

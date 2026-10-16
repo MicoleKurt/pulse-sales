@@ -26,7 +26,7 @@ export default async function ProfilePage() {
             <CardHeader title="Personal details" />
             <div className="p-5"><ProfileForm user={t.user} /></div>
           </Card>
-          <Card>
+          <Card id="password" className="scroll-mt-20">
             <CardHeader title="Password" />
             <div className="p-5"><PasswordForm /></div>
           </Card>

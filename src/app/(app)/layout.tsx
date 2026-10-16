@@ -2,6 +2,7 @@ import { and, count, desc, eq, gt, isNull, lte, or } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { getTenant } from "@/lib/auth";
 import { AppShell } from "@/components/app-shell";
+import { ROLE_LABEL } from "@/lib/rights";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const t = await getTenant();
@@ -43,7 +44,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <AppShell
-      user={{ name: t.user.name, email: t.user.email }}
+      user={{ name: t.user.name, email: t.user.email, role: ROLE_LABEL[t.role] }}
       org={{ id: t.org.id, name: t.org.name, status: t.org.status }}
       orgs={orgs}
       rights={[...t.rights]}

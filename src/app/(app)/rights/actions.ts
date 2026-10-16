@@ -10,9 +10,9 @@ import { newToken, sha256 } from "@/lib/crypto";
 import { rateLimit } from "@/lib/rate-limit";
 import { ALL_RIGHTS, ROLE_LABEL } from "@/lib/rights";
 import { assertCanAddSeat, audit, notify, sendMail } from "@/lib/services";
+import { appUrl } from "@/lib/url";
 
 const role = z.enum(["owner", "admin", "manager", "rep"]);
-const appUrl = () => process.env.APP_URL ?? "http://localhost:3000";
 
 const inviteMemberImpl = formAction(z.object({ email: z.string().trim().toLowerCase().email("Enter a valid email"), role }), async (d) => {
   const t = await requireRight("TEAM_ADMIN");

@@ -26,7 +26,7 @@ if (!isLocal && (!process.env.SEED_PASSWORD || process.env.SEED_PASSWORD === DEF
   process.exit(1);
 }
 
-const client = postgres(url, { max: 1, prepare: !isPooledUrl(url) });
+const client = postgres(url, { max: 1, prepare: !isPooledUrl(url), onnotice: () => {} });
 const db = drizzle(client, { schema, casing: "snake_case" });
 
 // Deterministic PRNG so every seed produces the same data.

@@ -108,11 +108,15 @@ async function main() {
 
   // ── Acme sales data ──
   console.log("Seeding customers, products, prices and sales…");
+  const usedNames = new Set<string>();
   const customers = await db
     .insert(schema.customers)
     .values(
       Array.from({ length: 50 }, (_, i) => {
-        const name = i % 3 === 0 ? `${pick(FIRST)} ${pick(LAST)}` : `${pick(LAST)} ${pick(COMPANY)}`;
+        let name: string;
+        do name = i % 3 === 0 ? `${pick(FIRST)} ${pick(LAST)}` : `${pick(LAST)} ${pick(COMPANY)}`;
+        while (usedNames.has(name));
+        usedNames.add(name);
         return { organizationId: acme.id, name, email: `${name.toLowerCase().replace(/[^a-z]+/g, ".")}${i}@example.com`, phone: `+1 555 ${String(1000 + i * 37).slice(-4)}`, address: `${int(1, 999)} Market St`, createdBy: people.owner.id, createdAt: daysAgo(int(200, 370)) };
       }),
     )

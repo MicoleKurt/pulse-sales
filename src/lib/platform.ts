@@ -35,7 +35,9 @@ export async function platformMetrics() {
       (select count(*) from users) as users,
       (select count(*) from users where created_at > now() - interval '30 days') as signups_30,
       (select count(*) from users where created_at between now() - interval '60 days' and now() - interval '30 days') as signups_prev_30,
-      (select count(*) from subscriptions where status = 'canceled' and updated_at > now() - interval '30 days') as churned_30,
+      -- Churn only counts workspaces that actually paid at some point, not trials that lapsed.
+      (select count(*) from subscriptions s where s.status = 'canceled' and s.updated_at > now() - interval '30 days'
+        and exists (select 1 from invoices i where i.organization_id = s.organization_id and i.status = 'paid')) as churned_30,
       (select count(*) from organizations where plan <> 'free') as converted,
       (select count(*) from organizations where trial_ends_at is not null or plan <> 'free') as trialed
   `);
